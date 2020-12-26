@@ -2,13 +2,13 @@ declare module 'koishi/addons' {
   interface User {
     id: number
     name: string
-    lucky: number
+    luck: number
     affinity: number
     warehouse: Record<string, number>
     _update(): Promise<void>
   }
 
-  interface Group {
+  interface Channel {
     id: number
   }
 
@@ -16,7 +16,7 @@ declare module 'koishi/addons' {
     user: User
     options: Record<string, any>
     args: string[]
-    group: Group
+    channel: Channel
     send(...args: any[]): Promise<void>
     exec(message: string): Promise<void>
   }

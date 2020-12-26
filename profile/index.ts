@@ -4,17 +4,17 @@ import { items } from 'shiki'
 const DEFAULT_BASE = 0.98
 const ALLOWANCE_LIMIT = 10
 
-function getProb(prob: number, lucky: number, base = DEFAULT_BASE) {
-  return 1 / (1 + (1 / prob - 1) * base ** -lucky)
+function getProb(prob: number, luck: number, base = DEFAULT_BASE) {
+  return 1 / (1 + (1 / prob - 1) * base ** -luck)
 }
 
-function getWeightedProb<T extends string>(weights: Readonly<Record<T, number>>, lucky: number, scale = 1) {
+function getWeightedProb<T extends string>(weights: Readonly<Record<T, number>>, luck: number, scale = 1) {
   const entries = Object.entries<number>(weights)
   const total = entries.reduce((prev, [, curr]) => prev + curr, 0)
   let pointer = 0, lastProb = 0
   return entries.map(([key, value]) => {
     pointer += value
-    const prob = getProb(pointer / total, lucky)
+    const prob = getProb(pointer / total, luck)
     const offset = prob - lastProb
     lastProb = prob
     return [key, offset * scale]
@@ -46,7 +46,7 @@ registerCommand('income', ({ user }) => {
   let total = 0
 
   let vGain = 0
-  for (const [rarity, prob] of getWeightedProb(probGeneral, user.lucky)) {
+  for (const [rarity, prob] of getWeightedProb(probGeneral, user.luck)) {
     let pointer = 0, totalValue = 0
     for (const { value = 0 } of items[rarity]) {
       pointer += 1
@@ -57,11 +57,11 @@ registerCommand('income', ({ user }) => {
   output.push(`剧情中获得物品期望收益：${+vGain.toFixed(1)}￥`)
 
   // 计算抽卡，考虑保底的影响
-  const [, [, pSE]] = getWeightedProb(probNS, user.lucky)
+  const [, [, pSE]] = getWeightedProb(probNS, user.luck)
   const qSE = pSE / (1 - (1 - pSE) ** ALLOWANCE_LIMIT), qNR = 1 - qSE
   const weights = [
-    ...getWeightedProb(probNR, user.lucky, qNR),
-    ...getWeightedProb(probSE, user.lucky, qSE),
+    ...getWeightedProb(probNR, user.luck, qNR),
+    ...getWeightedProb(probSE, user.luck, qSE),
   ]
   let vlottery = 0
   for (const [rarity, prob] of weights) {
@@ -79,7 +79,7 @@ registerCommand('income', ({ user }) => {
   if (user.warehouse['鱼竿']) {
     const { warehouse } = user
     let vFish = 0
-    for (const [rarity, prob] of getWeightedProb(probGeneral, user.lucky)) {
+    for (const [rarity, prob] of getWeightedProb(probGeneral, user.luck)) {
       let pointer = 0, totalValue = 0
       for (const { fishing = 0, value = 0 } of items[rarity]) {
         pointer += fishing

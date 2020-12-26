@@ -10,21 +10,21 @@ const foodLevel: { [key: number]: FoodLevel } = {}
 
 const 中文 = '一二三四五六七八九十'.split('')
 
-registerCommand('eat', ({ args, user, send, group }) => {
+registerCommand('eat', ({ args, user, send, channel }) => {
   const item = args.join(' ')
   if (!item) {
     return send('四季酱啥都能吃！请问你要给我吃什么？')
   }
 
-  if (typeof foodLevel[group.id || '0'] !== 'object') {
-    foodLevel[group.id || '0'] = {
+  if (typeof foodLevel[channel.id || '0'] !== 'object') {
+    foodLevel[channel.id || '0'] = {
       level: 0,
       last: Date.now(),
       lock: false,
     }
   }
 
-  let CurrentFoodLevel: FoodLevel = foodLevel[group.id || '0']
+  let CurrentFoodLevel: FoodLevel = foodLevel[channel.id || '0']
   calcFoodLevel(CurrentFoodLevel)
   if (CurrentFoodLevel.lock) {
     const answer = getAnswer(fa, item, user, CurrentFoodLevel)
@@ -60,15 +60,15 @@ registerCommand('eat', ({ args, user, send, group }) => {
   }
 })
 
-registerCommand('foodlevel', ({ send, group }) => {
-  if (typeof foodLevel[group.id || '0'] !== 'object') {
-    foodLevel[group.id || '0'] = {
+registerCommand('foodlevel', ({ send, channel }) => {
+  if (typeof foodLevel[channel.id || '0'] !== 'object') {
+    foodLevel[channel.id || '0'] = {
       level: 0,
       last: Date.now(),
       lock: false,
     }
   }
-  let CurrentFoodLevel: FoodLevel = foodLevel[group.id || '0']
+  let CurrentFoodLevel: FoodLevel = foodLevel[channel.id || '0']
   calcFoodLevel(CurrentFoodLevel)
   if (CurrentFoodLevel.lock) {
     return send('四季酱小肚子鼓鼓的！让她慢慢消化一下吧！')
