@@ -64,7 +64,7 @@ root
 
 ### Time
 
-### CQCode
+### segment
 
 ## 配置项
 

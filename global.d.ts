@@ -25,9 +25,9 @@ declare module 'koishi/addons' {
 }
 
 declare module 'koishi/utils' {
-  import { Time, Random, CQCode } from 'koishi-utils'
+  import { Time, Random, segment } from 'koishi-utils'
 
-  export { Time, Random, CQCode }
+  export { Time, Random, segment }
 }
 
 declare module 'shiki' {

@@ -37,7 +37,7 @@ registerCommand('eat', ({ args, user, send, channel }) => {
     }
   }
 
-  if (item.match(/\[cq:at,qq=\d+\]/ig)) {
+  if (item.match(/\[cq:at,id=\d+\]/ig)) {
     return send('仁义道德'.repeat(Math.floor(Math.random() * 15 + 1)))
   } else if (item.length > 50) {
     return send('这什么鬼东西啊，名字那么长，总感觉有毒，要不你先吃一个？我6个小时后来看看你是否还活着。。。')
