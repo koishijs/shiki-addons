@@ -5,6 +5,6 @@ commands:
     desc: 期望收益计算
     userFields:
     - name
-    - lucky
+    - luck
     - affinity
     - warehouse

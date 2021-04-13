@@ -3,14 +3,15 @@ import { Random } from 'koishi/utils'
 import answers from './NormalAnswer'
 import specialAnswers from './SpecialAnswer'
 import { Answer, FoodLevel } from './types'
-import { fa } from './FullAnswer'
+import fa from './FullAnswer.yml'
 
 
 const foodLevel: { [key: number]: FoodLevel } = {}
 
 const 中文 = '一二三四五六七八九十'.split('')
 
-registerCommand('eat', ({ args, user, send, channel }) => {
+registerCommand('eat', (scope) => {
+  const { args, user, send, channel } = scope
   const item = args.join(' ')
   if (!item) {
     return send('四季酱啥都能吃！请问你要给我吃什么？')

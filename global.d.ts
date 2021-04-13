@@ -30,6 +30,11 @@ declare module 'koishi/utils' {
   export { Time, Random, segment }
 }
 
+declare module '*.yml' {
+  const exports: any
+  export default exports
+}
+
 declare module 'shiki' {
   export enum rarities { N, R, SR, SSR, EX, SP }
   export type Rarity = keyof typeof rarities
